@@ -1,0 +1,195 @@
+using System;
+using System.Collections;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Collections
+{
+    class MyList : IList
+    {
+        private object[] _items;
+        private int _position = 0;
+
+        public MyList()
+        {
+            _items = new object[0];
+        }
+        #region Temporary Methods
+
+        public object GetValue(int index)
+        {
+            return _items[index];
+        }
+
+        //public void SetValue(object value, int index)
+        //{
+
+        //}
+
+        #endregion
+        public int Add(object value)
+        {
+            object[] tmpArray = new object[_items.Length + 1];
+            for (int i = 0; i < _items.Length; i++)
+            {
+                tmpArray[i] = _items[i];
+            }
+            tmpArray[tmpArray.Length - 1] = value;
+            _items = tmpArray;
+
+            return _items.Length - 1;
+        }
+        public void Insert(int index, object value)
+        {
+            object[] tmpArray = new object[_items.Length + 1];
+
+            for (int i = 0; i < tmpArray.Length; i++)
+            {
+                if (i < index)
+                {
+                    tmpArray[i] = _items[i];
+                }
+                else if (i == index)
+                {
+                    tmpArray[i] = value;
+                }
+                else
+                {
+                    tmpArray[i] = _items[i - 1];
+                }
+            }
+            _items = tmpArray;
+        }
+
+        public void Remove(object value)
+        {
+            object[] tmpArray = new object[_items.Length - 1];
+
+            for (int i = 0; i < tmpArray.Length; i++)
+            {
+                tmpArray[i] = _items[i];
+
+                if (tmpArray[i].Equals(value))
+                {
+                    tmpArray[i] = _items[i + 1];
+
+                    for (int j = i; j < tmpArray.Length; j++)
+                    {
+                        tmpArray[j] = _items[j + 1];
+                    }
+                    _items = tmpArray;
+                    break;
+                }
+            }
+        }
+
+        public void RemoveAt(int index)
+        {
+            object[] tmpArray = new object[_items.Length - 1];
+
+            for (int i = 0; i < tmpArray.Length; i++)
+            {
+                tmpArray[i] = _items[i];
+
+                if (i == index)
+                {
+                    tmpArray[i] = _items[i + 1];
+
+                    for (int j = i; j < tmpArray.Length; j++)
+                    {
+                        tmpArray[j] = _items[j + 1];
+                    }
+                    break;
+                }
+                if (index > tmpArray.Length)
+                {
+                    throw new Exception("Index was out of range.");
+                }
+            }
+            _items = tmpArray;
+        }
+
+        public void Clear()
+        {
+            _items = new object[0];
+        }
+        public bool Contains(object value)
+        {
+            if (IndexOf(value) != -1)
+            {
+                return true;
+            }
+            return false;
+        }
+        public int IndexOf(object value)
+        {
+            return IndexOf(value, 0);
+        }
+        public int IndexOf(object value, int startIndex)
+        {
+            for (int i = startIndex; i < _items.Length; i++)
+            {
+                if (_items[i].Equals(value))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        public int Count
+        {
+            get
+            {
+                return _items.Length;
+            }
+        }
+        public IEnumerator GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+        public object this[int index]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public void CopyTo(Array array, int index)
+        {
+            throw new NotImplementedException();
+        }
+        public bool IsReadOnly
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public bool IsFixedSize
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public object SyncRoot
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public bool IsSynchronized
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+    }
+}
