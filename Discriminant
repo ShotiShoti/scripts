@@ -1,0 +1,105 @@
+using System;
+namespace Discriminant
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      QuadraticEquation equation = new QuadraticEquation();
+
+      Console.Write("Enter A: ");
+      equation.A = double.Parse(Console.ReadLine());
+
+      Console.Write("Enter B: ");
+      equation.B = double.Parse(Console.ReadLine()); 
+
+      Console.Write("Enter C: ");
+      equation.C = double.Parse(Console.ReadLine());
+
+      Console.WriteLine($"D = {equation.D}");
+
+      if (equation.HasRoots)
+      {
+        Console.WriteLine($"X1 = {equation.X1}\nX2 = {equation.X2}");
+      }
+      else
+      {
+        Console.WriteLine("No roots found!");
+      }
+
+      Console.ReadKey();
+    }
+  }
+  class QuadraticEquation
+  {
+    private double _a;
+
+    public double A
+    {
+      get
+      {
+        if (_a == 0)
+        {
+          throw new Exception("A is not initialized!");
+        }
+        return _a;
+      }
+      set
+      {
+        if (value == 0)
+        {
+          throw new Exception("A can't be set to zero!");
+        }
+        _a = value;
+      }
+    }
+
+    public double B { get; set; }
+
+    public double C { get; set; }
+    
+    public double D 
+    {
+      get
+      {
+        return Math.Pow(B, 2) - 4 * A * C;
+      }
+    }
+
+    public bool HasRoots 
+    {
+      get
+      {
+        if (D >= 0)
+        {
+          return true;
+        }
+        return false;
+      }
+    }
+
+    public double? X1
+    {
+      get
+      {
+        if (HasRoots)
+        {
+          return (-B - Math.Sqrt(D)) / (2 * A);
+        }
+        return null;
+      }
+    }
+
+    public double? X2
+    {
+      get
+      {
+        if (HasRoots)
+        {
+          return (-B + Math.Sqrt(D)) / (2 * A);
+        }
+        return null;
+      }
+    }
+  }
+}
