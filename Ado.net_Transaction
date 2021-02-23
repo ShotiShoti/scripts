@@ -1,0 +1,47 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace Ado.net_Transaction
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            SqlConnection con = new SqlConnection(@"server=DESKTOP-V7759FH\SQLEXPRESS; database=Person; integrated security=true");
+            SqlCommand cmd = new SqlCommand("insert into PersonInfo(FirstName, LastName, PhoneNumber) values('Beastiko', 'Beastiko', @phone)", con);
+            cmd.Parameters.Add("@phone", SqlDbType.NVarChar);
+            SqlTransaction transaction = null;
+            try
+            {
+                con.Open();
+                transaction = con.BeginTransaction();
+                cmd.Transaction = transaction;
+
+                for (int i = 0; i < 10; i++)
+                {
+                    if (i == 5)
+                    {
+                        cmd.Parameters["@phone"].Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        cmd.Parameters["@phone"].Value = i;
+                    }
+                    cmd.ExecuteNonQuery();
+                }
+                transaction.Commit();
+                Console.WriteLine("Done");
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+    }
+}
