@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function findMaxNumber(arr) {
+            if (arr.length === 0) {
+                return undefined;
+            }
+
+            let max = arr[0];
+
+            for (let i = 1; i < arr.length; i++) {
+                if (arr[i] > max) {
+                max = arr[i];
+                }
+            }
+
+            return max;
+            }
+
+            const numbers = [12, 5, 27, 8, 10];
+            const maxNumber = findMaxNumber(numbers);
+            console.log("The maximum number is:", maxNumber);
+    </script>
+    
+</body>
+</html>
